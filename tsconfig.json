@@ -27,6 +27,9 @@
       ],
       "@/middlewares": [
         "middlewares"
+      ],
+      "@/ai": [
+        "ai"
       ]
     },
     "outDir": "dist",
