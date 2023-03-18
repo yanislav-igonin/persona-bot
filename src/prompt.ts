@@ -20,10 +20,15 @@ export const getCompletion = async (prompt: string) => {
     content: wordsListPrompt,
     role: 'system',
   };
+  const answerRequestMessage: ChatCompletionRequestMessage = {
+    content: 'Ответь на данное сообщение, будто ты человек из описания.',
+    role: 'system',
+  };
   const response = await openai.createChatCompletion({
     messages: [
       personaMessage,
       wordsListMessage,
+      answerRequestMessage,
       {
         content: prompt,
         role: 'user',

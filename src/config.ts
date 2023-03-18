@@ -10,7 +10,7 @@ export const config = {
   botToken: valueOrDefault(process.env.BOT_TOKEN, ''),
   botWordsList: valueOrDefault(process.env.BOT_WORDS_LIST, 'bot'),
   env: valueOrDefault(process.env.ENV, 'development'),
-  openAiApiKey: valueOrDefault(process.env.OPEN_AI_API_KEY, ''),
+  openaiApiKey: valueOrDefault(process.env.OPENAI_API_KEY, ''),
   randomEncounterChance: valueOrDefault(
     Number(process.env.RANDOM_ENCOUNTER_CHANCE),
     0.1,
