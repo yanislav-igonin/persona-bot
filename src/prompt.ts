@@ -1,10 +1,29 @@
 import { openai } from '@/ai';
 import { config } from '@/config';
 import { replies } from '@/replies';
+import { type ChatCompletionRequestMessage } from 'openai';
+
+const trimText = (text: string) => {
+  return text.trim();
+};
 
 export const getCompletion = async (prompt: string) => {
+  const personaMessage: ChatCompletionRequestMessage = {
+    content: config.botPersona,
+    role: 'system',
+  };
+  const wordsListPrompt =
+    'Используй в своей речи разные слова из этого списка: ' +
+    config.botWordsList +
+    ' - и подобные, которые подходят по контексту, чтобы не было слишком однообразно.';
+  const wordsListMessage: ChatCompletionRequestMessage = {
+    content: wordsListPrompt,
+    role: 'system',
+  };
   const response = await openai.createChatCompletion({
     messages: [
+      personaMessage,
+      wordsListMessage,
       {
         content: prompt,
         role: 'user',
@@ -13,15 +32,11 @@ export const getCompletion = async (prompt: string) => {
     model: 'gpt-4',
   });
   const text = response.data.choices[0].message?.content;
-  return text?.trim() ?? replies.noAnswer;
-};
-
-const cleanPrompt = (text: string) => {
-  return text.trim();
+  return trimText(text ?? replies.error);
 };
 
 export const preparePrompt = (text: string) => {
-  return cleanPrompt(text);
+  return trimText(text);
 };
 
 export const joinWithReply = (originalText: string, text: string) =>

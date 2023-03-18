@@ -1,3 +1,8 @@
+import {
+  getCompletion,
+  preparePrompt,
+  shouldMakeRandomEncounter,
+} from './prompt';
 import { config } from '@/config';
 import { database } from '@/database';
 import { logger } from '@/logger';
@@ -19,12 +24,21 @@ bot.command('help', async (context) => {
 });
 
 bot.on('message:text', async (context) => {
+  const shouldNotTrigger = !shouldMakeRandomEncounter();
+  if (shouldNotTrigger) {
+    return;
+  }
+
   const text = context.message.text;
   const { message_id: replyToMessageId } = context.message;
 
+  const prompt = preparePrompt(text);
+
   try {
-    const message = `Echo: ${text}`;
-    await context.reply(message, { reply_to_message_id: replyToMessageId });
+    const reply = await getCompletion(prompt);
+    await context.reply(reply, {
+      reply_to_message_id: replyToMessageId,
+    });
   } catch (error) {
     await context.reply(replies.error);
     throw error;
