@@ -1,0 +1,39 @@
+{
+  "name": "tg-bot-template",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --watch 'src/**/*.*' --exec 'ts-node -r dotenv/config -r tsconfig-paths/register src/index.ts'",
+    "lint": "eslint --ext .ts src",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc && tsc-alias",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yanislav-igonin/tg-bot-template.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yanislav-igonin/tg-bot-template/issues"
+  },
+  "homepage": "https://github.com/yanislav-igonin/tg-bot-template#readme",
+  "devDependencies": {
+    "@typescript-eslint/parser": "^5.55.0",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.36.0",
+    "eslint-config-canonical": "^40.0.9",
+    "nodemon": "^2.0.21",
+    "prisma": "^4.11.0",
+    "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.3",
+    "tsconfig-paths": "^4.1.2",
+    "typescript": "^5.0.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.11.0",
+    "grammy": "^1.15.3"
+  }
+}
