@@ -1,4 +1,6 @@
-# Telegram Bot Template
+# Persona Bot
+
+Bot that randomly replies in Telegram chats on anyone's messages with a certain predefined personality. Answers generated using OpenAI's GPT-4 API.
 
 # Stack
 - Typescript
