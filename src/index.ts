@@ -1,13 +1,14 @@
-import {
-  getCompletion,
-  preparePrompt,
-  shouldMakeRandomEncounter,
-} from './prompt';
 import { config } from '@/config';
 import { database } from '@/database';
 import { logger } from '@/logger';
 import { saveChatMiddleware, saveUserMiddleware } from '@/middlewares';
+import {
+  getCompletion,
+  preparePrompt,
+  shouldMakeRandomEncounter,
+} from '@/prompt';
 import { replies } from '@/replies';
+import { reply as replyRepo } from '@/repositories';
 import { Bot } from 'grammy';
 
 const bot = new Bot(config.botToken);
@@ -29,7 +30,9 @@ bot.on('message:text', async (context) => {
     return;
   }
 
-  const text = context.message.text;
+  const { text } = context.message;
+  const { id: chatId } = context.chat;
+  const { id: userId } = context.from;
   const { message_id: replyToMessageId } = context.message;
 
   const prompt = preparePrompt(text);
@@ -39,6 +42,12 @@ bot.on('message:text', async (context) => {
     const reply = await getCompletion(prompt);
     await context.reply(reply, {
       reply_to_message_id: replyToMessageId,
+    });
+    await replyRepo.create({
+      chatId: chatId.toString(),
+      input: prompt,
+      output: reply,
+      userId: userId.toString(),
     });
   } catch (error) {
     await context.reply(replies.error);
