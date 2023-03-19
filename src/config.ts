@@ -7,6 +7,7 @@ export const config = {
     [],
   ),
   botPersona: valueOrDefault(process.env.BOT_PERSONA, 'bot'),
+  botRole: valueOrDefault(process.env.BOT_ROLE, 'bot'),
   botToken: valueOrDefault(process.env.BOT_TOKEN, ''),
   botWordsList: valueOrDefault(process.env.BOT_WORDS_LIST, 'bot'),
   env: valueOrDefault(process.env.ENV, 'development'),
