@@ -13,7 +13,7 @@ export const getCompletion = async (prompt: string) => {
     role: 'system',
   };
   const wordsListPrompt =
-    'Используй в своей речи разные слова из этого списка: ' +
+    'Используй иногда в своей речи разные слова из этого списка: ' +
     config.botWordsList +
     ' - и подобные, которые подходят по контексту, чтобы не было слишком однообразно.';
   const wordsListMessage: ChatCompletionRequestMessage = {
@@ -21,7 +21,7 @@ export const getCompletion = async (prompt: string) => {
     role: 'system',
   };
   const answerRequestMessage: ChatCompletionRequestMessage = {
-    content: 'Ответь на данное сообщение, будто ты человек из описания.',
+    content: 'Тебе не понравилось сообщение ниже, ответь на него.',
     role: 'system',
   };
   const response = await openai.createChatCompletion({
