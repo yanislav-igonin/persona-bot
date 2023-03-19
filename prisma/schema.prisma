@@ -42,6 +42,7 @@ model Reply {
   createdAt DateTime @default(now())
   userId    String
   chatId    String
+  botRole   String
 
   user User @relation(fields: [userId], references: [id])
   chat Chat @relation(fields: [chatId], references: [id])

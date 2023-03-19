@@ -44,6 +44,7 @@ bot.on('message:text', async (context) => {
       reply_to_message_id: replyToMessageId,
     });
     await replyRepo.create({
+      botRole: config.botRole,
       chatId: chatId.toString(),
       input: prompt,
       output: reply,
