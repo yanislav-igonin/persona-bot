@@ -2,10 +2,6 @@ import { valueOrDefault } from '@/values';
 
 /* eslint-disable node/no-process-env */
 export const config = {
-  allowedUsernames: valueOrDefault(
-    process.env.ALLOWED_USERNAMES?.split(','),
-    [],
-  ),
   botPersona: valueOrDefault(process.env.BOT_PERSONA, 'bot'),
   botRole: valueOrDefault(process.env.BOT_ROLE, 'bot'),
   botToken: valueOrDefault(process.env.BOT_TOKEN, ''),
