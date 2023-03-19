@@ -18,15 +18,33 @@ model User {
   language  String?
   createdAt DateTime @default(now())
 
+  replies Reply[]
+
   @@map("users")
 }
 
 model Chat {
-  id   String @id
-  name String
-  type String
-  isAllowed Boolean @default(false)
+  id        String   @id
+  name      String
+  type      String
+  isAllowed Boolean  @default(false)
   createdAt DateTime @default(now())
 
+  replies Reply[]
+
   @@map("chats")
+}
+
+model Reply {
+  id        String   @id @default(cuid())
+  input     String
+  output    String
+  createdAt DateTime @default(now())
+  userId    String
+  chatId    String
+
+  user User @relation(fields: [userId], references: [id])
+  chat Chat @relation(fields: [chatId], references: [id])
+
+  @@map("replies")
 }
