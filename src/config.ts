@@ -2,7 +2,7 @@ import { valueOrDefault } from '@/values';
 
 /* eslint-disable node/no-process-env */
 export const config = {
-  botPersona: valueOrDefault(process.env.BOT_PERSONA, 'bot'),
+  botPersonality: valueOrDefault(process.env.BOT_PERSONALITY, 'bot'),
   botRole: valueOrDefault(process.env.BOT_ROLE, 'bot'),
   botToken: valueOrDefault(process.env.BOT_TOKEN, ''),
   botWordsList: valueOrDefault(process.env.BOT_WORDS_LIST, 'bot'),

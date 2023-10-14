@@ -7,33 +7,35 @@ const trimText = (text: string) => {
   return text.trim();
 };
 
+const getSystemMessage = (content: string): ChatCompletionRequestMessage => ({
+  content,
+  role: 'system',
+});
+
+const getUserMessage = (content: string): ChatCompletionRequestMessage => ({
+  content,
+  role: 'user',
+});
+
 export const getCompletion = async (prompt: string) => {
-  const personaMessage: ChatCompletionRequestMessage = {
-    content: config.botPersona,
-    role: 'system',
-  };
+  const personalityMessage = getSystemMessage(config.botPersonality);
   const wordsListPrompt =
     'Используй иногда в своей речи разные слова из этого списка: ' +
     config.botWordsList +
     ' - и подобные, которые подходят по контексту, чтобы не было слишком однообразно.';
-  const wordsListMessage: ChatCompletionRequestMessage = {
-    content: wordsListPrompt,
-    role: 'system',
-  };
-  const answerRequestMessage: ChatCompletionRequestMessage = {
-    content: 'Тебе не понравилось сообщение ниже, ответь на него.',
-    role: 'system',
-  };
+  const wordsListMessage = getSystemMessage(wordsListPrompt);
+  const answerRequestMessage = getSystemMessage(
+    'Тебе не понравилось сообщение пользователя, ответь на него.'
+  );
+  const userPromptMessage = getUserMessage(prompt);
+  const messages = [
+    personalityMessage,
+    wordsListMessage,
+    answerRequestMessage,
+    userPromptMessage,
+  ];
   const response = await openai.createChatCompletion({
-    messages: [
-      personaMessage,
-      wordsListMessage,
-      answerRequestMessage,
-      {
-        content: prompt,
-        role: 'user',
-      },
-    ],
+    messages,
     model: 'gpt-4',
   });
   const text = response.data.choices[0].message?.content;
