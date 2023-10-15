@@ -14,14 +14,14 @@ RUN npm run build
 
 # RUNTIME
 
-FROM node:20-alpine
+# FROM node:20-alpine
 
-WORKDIR /app
+# WORKDIR /app
 
-COPY --from=build /app/package*.json ./
-COPY --from=build /app/dist ./
-COPY --from=build /app/prisma ./
+# COPY --from=build /app/package*.json ./
+# COPY --from=build /app/dist ./
+# COPY --from=build /app/prisma ./
 
-RUN npm install --only=production
+# RUN npm install --only=production
 
-CMD ["npm", "run", "start"]
+# CMD ["npm", "run", "start"]
