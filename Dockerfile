@@ -22,8 +22,6 @@ COPY --from=build /app/package*.json ./
 COPY --from=build /app/dist ./
 COPY --from=build /app/prisma ./
 
-RUN npm install # TODO: only prod
-
-RUN npx prisma db push
+RUN npm install --only=production
 
 CMD ["npm", "run", "start"]
