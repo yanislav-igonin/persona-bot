@@ -46,7 +46,7 @@ jobs:
     - name: Build
       run: npm run build
     - name: Upload build
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: dist
         path: dist
@@ -58,17 +58,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Download build
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: dist
           path: dist
       - name: Build docker image and push to GitHub registry
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v5
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: yanislav-igonin/persona-bot/persona-bot
+          image: yanislav-igonin/persona-bot/persona-bot
           dockerfile: Dockerfile
           tags: latest
 
