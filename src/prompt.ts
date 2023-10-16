@@ -25,7 +25,7 @@ export const getCompletion = async (prompt: string) => {
     ' - и подобные, которые подходят по контексту, чтобы не было слишком однообразно.';
   const wordsListMessage = getSystemMessage(wordsListPrompt);
   const answerRequestMessage = getSystemMessage(
-    'Тебе не понравилось сообщение пользователя, ответь на него.'
+    'Тебе не понравилось сообщение пользователя, ответь на него.',
   );
   const userPromptMessage = getUserMessage(prompt);
   const messages = [
