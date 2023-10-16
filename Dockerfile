@@ -1,27 +1,14 @@
-# BUILD
-
-FROM node:20-alpine AS build
+FROM node:20-alpine
 
 WORKDIR /app
 
-COPY ./prisma ./
-COPY ./package*.json ./
-COPY ./tsconfig.json ./
-COPY ./src ./
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm i --only=production
 
-RUN npm install
-RUN npm run build
+COPY ./dist ./dist
 
-# RUNTIME
+# ARG CI_COMMIT_TAG
+# ENV CI_COMMIT_TAG=$CI_COMMIT_TAG
 
-# FROM node:20-alpine
-
-# WORKDIR /app
-
-# COPY --from=build /app/package*.json ./
-# COPY --from=build /app/dist ./
-# COPY --from=build /app/prisma ./
-
-# RUN npm install --only=production
-
-# CMD ["npm", "run", "start"]
+CMD ["npm", "start"]
