@@ -1,7 +1,11 @@
-import { openai } from '@/ai';
+import { mistral, openai } from '@/ai';
 import { config } from '@/config';
-import { replies } from '@/replies';
+// import { replies } from '@/replies';
 import { type ChatCompletionRequestMessage } from 'openai';
+
+enum Model {
+  MistralLarge = 'mistral-large-latest',
+}
 
 const trimText = (text: string) => {
   return text.trim();
@@ -34,12 +38,16 @@ export const getCompletion = async (prompt: string) => {
     answerRequestMessage,
     userPromptMessage,
   ];
-  const response = await openai.createChatCompletion({
+  // const response = await openai.createChatCompletion({
+  //   messages,
+  //   model: 'gpt-4',
+  // });
+  const response = await mistral.chat({
     messages,
-    model: 'gpt-4',
+    model: Model.MistralLarge,
   });
-  const text = response.data.choices[0].message?.content;
-  return trimText(text ?? replies.error);
+  const text = response.choices[0].message.content;
+  return trimText(text);
 };
 
 export const preparePrompt = (text: string) => {
