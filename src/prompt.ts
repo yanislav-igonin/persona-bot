@@ -1,6 +1,5 @@
-import { mistral, openai } from '@/ai';
+import { mistral } from '@/ai';
 import { config } from '@/config';
-// import { replies } from '@/replies';
 import { type ChatCompletionRequestMessage } from 'openai';
 
 enum Model {
