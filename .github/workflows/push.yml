@@ -31,46 +31,46 @@ jobs:
     - name: Build
       run: npm run typecheck
 
-  build:
-    needs: [typecheck, lint]
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Use Node.js 20
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20.x
-    - name: Install dependencies
-      run: npm ci
-    - name: Build
-      run: npm run build
-    - name: Upload build
-      uses: actions/upload-artifact@v3
-      with:
-        name: dist
-        path: ./dist
+  # build:
+  #   needs: [typecheck, lint]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v3
+  #   - name: Use Node.js 20
+  #     uses: actions/setup-node@v3
+  #     with:
+  #       node-version: 20.x
+  #   - name: Install dependencies
+  #     run: npm ci
+  #   - name: Build
+  #     run: npm run build
+  #   - name: Upload build
+  #     uses: actions/upload-artifact@v3
+  #     with:
+  #       name: dist
+  #       path: ./dist
 
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Download build
-        uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: ../dist
-      - name: Build docker image and push to GitHub registry
-        uses: docker/build-push-action@v5
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          image: yanislav-igonin/persona-bot/persona-bot
-          dockerfile: Dockerfile
-          tags: latest
+  # release:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #     - name: Download build
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: dist
+  #         path: ../dist
+  #     - name: Build docker image and push to GitHub registry
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
+  #         registry: docker.pkg.github.com
+  #         image: yanislav-igonin/persona-bot/persona-bot
+  #         dockerfile: Dockerfile
+  #         tags: latest
 
   # deploy:
   #   needs: release
