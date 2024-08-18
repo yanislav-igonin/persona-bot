@@ -51,26 +51,26 @@ jobs:
         name: dist
         path: ./dist
 
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Download build
-        uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: ../dist
-      - name: Build docker image and push to GitHub registry
-        uses: docker/build-push-action@v5
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          image: yanislav-igonin/persona-bot/persona-bot
-          dockerfile: Dockerfile
-          tags: latest
+  # release:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #     - name: Download build
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: dist
+  #         path: ../dist
+  #     - name: Build docker image and push to GitHub registry
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
+  #         registry: docker.pkg.github.com
+  #         image: yanislav-igonin/persona-bot/persona-bot
+  #         dockerfile: Dockerfile
+  #         tags: latest
 
   # deploy:
   #   needs: release

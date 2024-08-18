@@ -17,11 +17,20 @@ const getUserMessage = (content: string): ChatCompletionRequestMessage => ({
   role: 'user',
 });
 
-export const getCompletion = async (prompt: string) => {
-  const personalityMessage = getSystemMessage(config.botPersonality);
+type GetCompletionData = {
+  personality: string;
+  prompt: string;
+  words: string[];
+};
+export const getCompletion = async ({
+  prompt,
+  personality,
+  words,
+}: GetCompletionData) => {
+  const personalityMessage = getSystemMessage(personality);
   const wordsListPrompt =
     'Используй иногда в своей речи разные слова из этого списка: ' +
-    config.botWordsList +
+    words +
     ' - и подобные, которые подходят по контексту, чтобы не было слишком однообразно.';
   const wordsListMessage = getSystemMessage(wordsListPrompt);
   const answerRequestMessage = getSystemMessage(
