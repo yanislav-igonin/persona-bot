@@ -1,6 +1,6 @@
+import { config } from './config';
 import { logger } from './logger';
 import { saveChatMiddleware, saveUserMiddleware } from './middlewares';
-import personas from './personas.json';
 import {
   getCompletion,
   preparePrompt,
@@ -10,14 +10,7 @@ import { replies } from './replies';
 import { reply as replyRepo } from '@/repositories';
 import { Bot } from 'grammy';
 
-type BotPersona = {
-  botToken: string;
-  personality: string;
-  role: string;
-  words: string[];
-};
-
-const bots = (personas as BotPersona[]).map((persona) => ({
+const bots = config.personas.map((persona) => ({
   bot: new Bot(persona.botToken),
   ...persona,
 }));

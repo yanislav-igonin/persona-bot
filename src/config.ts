@@ -1,13 +1,19 @@
-import { valueOrDefault } from '@/values';
+import { valueOrDefault, valueOrThrow } from '@/values';
+
+type BotPersona = {
+  botToken: string;
+  personality: string;
+  role: string;
+  words: string[];
+};
 
 /* eslint-disable node/no-process-env */
 export const config = {
-  botPersonality: valueOrDefault(process.env.BOT_PERSONALITY, 'bot'),
-  botRole: valueOrDefault(process.env.BOT_ROLE, 'bot'),
-  botToken: valueOrDefault(process.env.BOT_TOKEN, ''),
-  botWordsList: valueOrDefault(process.env.BOT_WORDS_LIST, 'bot'),
   env: valueOrDefault(process.env.ENV, 'development'),
   openaiApiKey: valueOrDefault(process.env.OPENAI_API_KEY, ''),
+  personas: JSON.parse(
+    valueOrThrow(process.env.PERSONAS, 'personas'),
+  ) as BotPersona[],
   randomEncounterChance: valueOrDefault(
     Number(process.env.RANDOM_ENCOUNTER_CHANCE),
     0.1,
