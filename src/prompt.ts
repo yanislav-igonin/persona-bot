@@ -36,11 +36,15 @@ export const getCompletion = async ({
   const answerRequestMessage = getSystemMessage(
     'Тебе не понравилось сообщение пользователя, ответь на него.',
   );
+  const shortAnswerRequestMessage = getSystemMessage(
+    'Ответ на сообщение пользователя должен быть коротким, не более 500 символов.',
+  );
   const userPromptMessage = getUserMessage(prompt);
   const messages = [
     personalityMessage,
     wordsListMessage,
     answerRequestMessage,
+    shortAnswerRequestMessage,
     userPromptMessage,
   ];
   const response = await openai.createChatCompletion({
