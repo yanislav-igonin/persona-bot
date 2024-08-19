@@ -15,5 +15,4 @@ WORKDIR /app
 COPY package.json ./
 COPY package-lock.json ./
 COPY --from=builder /app/dist ./dist
-RUN npx prisma generate
 CMD ["npm", "start"]
