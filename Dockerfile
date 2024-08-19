@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json ./
 COPY package-lock.json ./
 RUN npm i
-RUN npm run build
+RUN npm run build && npm run build:alias
 
 
 FROM node:20-alpine as runner
