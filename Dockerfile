@@ -14,5 +14,7 @@ FROM node:20-alpine as runner
 WORKDIR /app
 COPY package.json ./
 COPY package-lock.json ./
+COPY prisma ./prisma
 COPY --from=builder /app/dist ./dist
+RUN npx prisma generate
 CMD ["npm", "start"]
