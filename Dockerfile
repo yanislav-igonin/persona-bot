@@ -1,14 +1,20 @@
-FROM node:20-alpine
+FROM node:20-alpine as builder
 
 WORKDIR /app
 
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm i --only=production
+RUN npm i
+RUN npm run build
 
-COPY dist ./
 
-# ARG CI_COMMIT_TAG
-# ENV CI_COMMIT_TAG=$CI_COMMIT_TAG
+FROM node:20-alpine as runner
+
+WORKDIR /app
+
+COPY package.json ./
+COPY package-lock.json ./
+
+COPY --from=builder /app/dist ./dist
 
 CMD ["npm", "start"]
