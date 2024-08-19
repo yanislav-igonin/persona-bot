@@ -4,6 +4,7 @@ COPY package.json ./
 COPY package-lock.json ./
 COPY tsconfig.json ./
 COPY src ./src
+RUN npx prisma generate
 RUN npm ci
 RUN npm run build
 
@@ -14,4 +15,5 @@ COPY package.json ./
 COPY package-lock.json ./
 COPY prisma ./prisma
 COPY --from=builder /app/dist ./dist
+RUN npx prisma generate
 CMD ["npm", "start"]
