@@ -10,6 +10,7 @@ type BotPersona = {
 /* eslint-disable node/no-process-env */
 export const config = {
   env: valueOrDefault(process.env.ENV, 'development'),
+  grokApiKey: valueOrDefault(process.env.GROK_API_KEY, ''),
   openaiApiKey: valueOrDefault(process.env.OPENAI_API_KEY, ''),
   personas: JSON.parse(
     valueOrThrow(process.env.PERSONAS, 'personas'),
