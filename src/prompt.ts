@@ -1,18 +1,18 @@
 import { openai } from '@/ai';
 import { config } from '@/config';
 import { replies } from '@/replies';
-import { type ChatCompletionRequestMessage } from 'openai';
+import { type ChatCompletionMessageParam } from 'openai/resources';
 
 const trimText = (text: string) => {
   return text.trim();
 };
 
-const getSystemMessage = (content: string): ChatCompletionRequestMessage => ({
+const getSystemMessage = (content: string): ChatCompletionMessageParam => ({
   content,
   role: 'system',
 });
 
-const getUserMessage = (content: string): ChatCompletionRequestMessage => ({
+const getUserMessage = (content: string): ChatCompletionMessageParam => ({
   content,
   role: 'user',
 });
@@ -34,10 +34,10 @@ export const getCompletion = async ({
     ' - и подобные, которые подходят по контексту, чтобы не было слишком однообразно.';
   const wordsListMessage = getSystemMessage(wordsListPrompt);
   const answerRequestMessage = getSystemMessage(
-    'Тебе не понравилось сообщение пользователя, ответь на него.',
+    'Тебе не понравилось сообщение пользователя, ответь на него.'
   );
   const shortAnswerRequestMessage = getSystemMessage(
-    'Ответ на сообщение пользователя должен быть коротким, не более 500 символов.',
+    'Ответ на сообщение пользователя должен быть коротким, не более 500 символов.'
   );
   const userPromptMessage = getUserMessage(prompt);
   const messages = [
@@ -47,11 +47,11 @@ export const getCompletion = async ({
     shortAnswerRequestMessage,
     userPromptMessage,
   ];
-  const response = await openai.createChatCompletion({
+  const response = await openai.chat.completions.create({
     messages,
     model: 'gpt-4',
   });
-  const text = response.data.choices[0].message?.content;
+  const text = response.choices[0].message.content;
   return trimText(text ?? replies.error);
 };
 
