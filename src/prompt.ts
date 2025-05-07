@@ -49,7 +49,7 @@ export const getCompletion = async ({
   ];
   const response = await openai.chat.completions.create({
     messages,
-    model: 'gpt-4',
+    model: 'grok-3-latest',
   });
   const text = response.choices[0].message.content;
   return trimText(text ?? replies.error);
