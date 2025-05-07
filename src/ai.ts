@@ -8,6 +8,6 @@ import { Configuration, OpenAIApi } from 'openai';
 
 const grokConfiguration = new Configuration({
   apiKey: config.grokApiKey,
-  basePath: 'https://api.grok.com/v1',
+  basePath: 'https://api.x.ai/v1',
 });
 export const openai = new OpenAIApi(grokConfiguration);
