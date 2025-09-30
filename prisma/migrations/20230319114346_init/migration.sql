@@ -1,10 +1,10 @@
 -- CreateTable
 CREATE TABLE "users" (
-    "id" STRING NOT NULL,
-    "username" STRING,
-    "firstName" STRING,
-    "lastName" STRING,
-    "language" STRING,
+    "id" TEXT NOT NULL,
+    "username" TEXT,
+    "firstName" TEXT,
+    "lastName" TEXT,
+    "language" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
@@ -12,10 +12,10 @@ CREATE TABLE "users" (
 
 -- CreateTable
 CREATE TABLE "chats" (
-    "id" STRING NOT NULL,
-    "name" STRING NOT NULL,
-    "type" STRING NOT NULL,
-    "isAllowed" BOOL NOT NULL DEFAULT false,
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "isAllowed" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "chats_pkey" PRIMARY KEY ("id")
@@ -23,22 +23,60 @@ CREATE TABLE "chats" (
 
 -- CreateTable
 CREATE TABLE "replies" (
-    "id" STRING NOT NULL,
-    "input" STRING NOT NULL,
-    "output" STRING NOT NULL,
+    "id" TEXT NOT NULL,
+    "input" TEXT NOT NULL,
+    "output" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "userId" STRING NOT NULL,
-    "chatId" STRING NOT NULL,
-    "botRole" STRING NOT NULL,
+    "userId" TEXT NOT NULL,
+    "chatId" TEXT NOT NULL,
+    "botRole" TEXT NOT NULL,
 
     CONSTRAINT "replies_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "dialogs" (
+    "id" SERIAL NOT NULL,
+    "chatId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "dialogs_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "messages" (
+    "id" SERIAL NOT NULL,
+    "telegramId" TEXT NOT NULL,
+    "text" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "userId" TEXT NOT NULL,
+    "botRole" TEXT,
+    "dialogId" INTEGER NOT NULL,
+
+    CONSTRAINT "messages_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
+
+-- CreateIndex
+CREATE INDEX "messages_telegramId_idx" ON "messages"("telegramId");
+
+-- CreateIndex
+CREATE INDEX "messages_dialogId_createdAt_idx" ON "messages"("dialogId", "createdAt");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "messages_dialogId_telegramId_key" ON "messages"("dialogId", "telegramId");
 
 -- AddForeignKey
 ALTER TABLE "replies" ADD CONSTRAINT "replies_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "replies" ADD CONSTRAINT "replies_chatId_fkey" FOREIGN KEY ("chatId") REFERENCES "chats"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "dialogs" ADD CONSTRAINT "dialogs_chatId_fkey" FOREIGN KEY ("chatId") REFERENCES "chats"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "messages" ADD CONSTRAINT "messages_dialogId_fkey" FOREIGN KEY ("dialogId") REFERENCES "dialogs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
