@@ -21,18 +21,6 @@ CREATE TABLE "chats" (
     CONSTRAINT "chats_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
-CREATE TABLE "replies" (
-    "id" TEXT NOT NULL,
-    "input" TEXT NOT NULL,
-    "output" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "userId" TEXT NOT NULL,
-    "chatId" TEXT NOT NULL,
-    "botRole" TEXT NOT NULL,
-
-    CONSTRAINT "replies_pkey" PRIMARY KEY ("id")
-);
 
 -- CreateTable
 CREATE TABLE "dialogs" (
@@ -68,11 +56,6 @@ CREATE INDEX "messages_dialogId_createdAt_idx" ON "messages"("dialogId", "create
 -- CreateIndex
 CREATE UNIQUE INDEX "messages_dialogId_telegramId_key" ON "messages"("dialogId", "telegramId");
 
--- AddForeignKey
-ALTER TABLE "replies" ADD CONSTRAINT "replies_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "replies" ADD CONSTRAINT "replies_chatId_fkey" FOREIGN KEY ("chatId") REFERENCES "chats"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "dialogs" ADD CONSTRAINT "dialogs_chatId_fkey" FOREIGN KEY ("chatId") REFERENCES "chats"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
