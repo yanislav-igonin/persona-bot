@@ -1,0 +1,10 @@
+VAN Mode Visual Map Rule
+
+Process
+- Check Memory Bank and tasks.md presence.
+- Load this VAN rule and execute scanning of README and src to refresh contexts.
+- Update Memory Bank files and tasks.md with findings.
+- Verify completion and transition readiness to IMPLEMENT or PLAN per level.
+
+Artifacts
+- Files: projectbrief.md, productContext.md, systemPatterns.md, techContext.md, activeContext.md, progress.md, tasks.md.
