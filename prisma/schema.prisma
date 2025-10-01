@@ -18,8 +18,6 @@ model User {
   language  String?
   createdAt DateTime @default(now())
 
-  replies Reply[]
-
   @@map("users")
 }
 
@@ -30,22 +28,36 @@ model Chat {
   isAllowed Boolean  @default(false)
   createdAt DateTime @default(now())
 
-  replies Reply[]
+  dialogs  Dialog[]
 
   @@map("chats")
 }
 
-model Reply {
-  id        String   @id @default(cuid())
-  input     String
-  output    String
-  createdAt DateTime @default(now())
-  userId    String
+model Dialog {
+  id        Int      @id @default(autoincrement())
   chatId    String
-  botRole   String
+  createdAt DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id])
-  chat Chat @relation(fields: [chatId], references: [id])
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  messages  Message[]
 
-  @@map("replies")
+  @@map("dialogs")
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  telegramId String
+  text       String
+  createdAt  DateTime @default(now())
+  userId     String   // use "0" for bot messages
+  botRole    String?  // NULL for user messages
+  dialogId   Int
+
+  dialog     Dialog   @relation(fields: [dialogId], references: [id])
+
+  // Protect uniqueness within a dialog (Telegram ids are unique per chat; dialog is subset)
+  @@unique([dialogId, telegramId], name: "dialog_message_unique")
+  @@index([telegramId])
+  @@index([dialogId, createdAt])
+  @@map("messages")
 }
