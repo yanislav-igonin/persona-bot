@@ -44,6 +44,18 @@ CREATE TABLE "messages" (
     CONSTRAINT "messages_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "personas" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "words" TEXT[] NOT NULL,
+    "botToken" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "personas_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 
@@ -55,6 +67,9 @@ CREATE INDEX "messages_dialogId_createdAt_idx" ON "messages"("dialogId", "create
 
 -- CreateIndex
 CREATE UNIQUE INDEX "messages_dialogId_telegramId_key" ON "messages"("dialogId", "telegramId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "personas_name_key" ON "personas"("name");
 
 
 -- AddForeignKey

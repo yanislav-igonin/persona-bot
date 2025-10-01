@@ -61,3 +61,14 @@ model Message {
   @@index([dialogId, createdAt])
   @@map("messages")
 }
+
+model Persona {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String
+  words       String[]
+  botToken    String
+  createdAt   DateTime  @default(now())
+
+  @@map("personas")
+}
