@@ -62,10 +62,10 @@ export const wireBots = (bots: InitedBot[]) => {
       const replyTo = context.message.reply_to_message;
 
       try {
-        await context.replyWithChatAction('typing');
-
         // If user replies to our bot message -> continue dialog with history
         if (replyTo?.from?.is_bot) {
+          await context.replyWithChatAction('typing');
+
           const parentId = replyTo.message_id.toString();
           const parent = await messageRepo.getByChatAndTelegramId(
             chatId,
@@ -123,6 +123,8 @@ export const wireBots = (bots: InitedBot[]) => {
         if (shouldNotTrigger) {
           return;
         }
+
+        await context.replyWithChatAction('typing');
 
         const dialog = await dialogRepo.create({ chatId });
         const newDialogId = dialog.id;
