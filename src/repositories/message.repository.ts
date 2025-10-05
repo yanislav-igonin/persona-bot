@@ -1,5 +1,8 @@
 import { database } from '@/database';
 
+// Prisma error code for unique constraint violations
+const PRISMA_UNIQUE_ERROR_CODE = 'P2002';
+
 type CreateMessageData = {
   botRole?: string | null;
   chatId: string;
@@ -9,7 +12,7 @@ type CreateMessageData = {
   userId: string;
 };
 
-export const create = ({
+export const create = async ({
   botRole,
   chatId,
   dialogId,
@@ -17,16 +20,32 @@ export const create = ({
   text,
   userId,
 }: CreateMessageData) => {
-  return database.message.create({
-    data: {
-      botRole: botRole ?? null,
-      chatId,
-      dialogId,
-      telegramId,
-      text,
-      userId,
-    },
-  });
+  try {
+    return await database.message.create({
+      data: {
+        botRole: botRole ?? null,
+        chatId,
+        dialogId,
+        telegramId,
+        text,
+        userId,
+      },
+    });
+  } catch (error: unknown) {
+    // If another bot already inserted this message, return the existing one
+    if (
+      typeof error === 'object' &&
+      error !== null &&
+      // @ts-expect-error prisma code on error instance
+      error.code === PRISMA_UNIQUE_ERROR_CODE
+    ) {
+      return await database.message.findFirst({
+        where: { chatId, telegramId },
+      });
+    }
+
+    throw error;
+  }
 };
 
 export const getByChatAndTelegramId = (chatId: string, telegramId: string) => {

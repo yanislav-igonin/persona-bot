@@ -71,6 +71,15 @@ export const wireBots = (bots: InitedBot[]) => {
             chatId,
             parentId,
           );
+
+          // Only the bot that authored the parent message should handle the reply
+          if (parent?.botRole && parent.botRole !== name) {
+            logger.info(
+              `Skipping reply: addressed to ${parent.botRole}, current bot is ${name}`,
+            );
+            return;
+          }
+
           const existingOrNewDialogId = parent?.dialogId
             ? parent.dialogId
             : (await dialogRepo.create({ chatId })).id;
