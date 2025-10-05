@@ -78,6 +78,7 @@ export const wireBots = (bots: InitedBot[]) => {
           // Save incoming user message
           await messageRepo.create({
             botRole: null,
+            chatId,
             dialogId: existingOrNewDialogId,
             telegramId: userMessageTelegramId,
             text,
@@ -110,6 +111,7 @@ export const wireBots = (bots: InitedBot[]) => {
           );
           await messageRepo.create({
             botRole: name,
+            chatId,
             dialogId: existingOrNewDialogId,
             telegramId: sentHistoryReply.message_id.toString(),
             text: replyWithHistoryText,
@@ -132,6 +134,7 @@ export const wireBots = (bots: InitedBot[]) => {
         // Save incoming user message
         await messageRepo.create({
           botRole: null,
+          chatId,
           dialogId: newDialogId,
           telegramId: userMessageTelegramId,
           text,
@@ -153,6 +156,7 @@ export const wireBots = (bots: InitedBot[]) => {
         );
         await messageRepo.create({
           botRole: name,
+          chatId,
           dialogId: newDialogId,
           telegramId: sentSingleTurnReply.message_id.toString(),
           text: replySingleTurnText,

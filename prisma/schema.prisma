@@ -52,13 +52,14 @@ model Message {
   userId     String   // use "0" for bot messages
   botRole    String?  // NULL for user messages
   dialogId   Int
+  chatId     String
 
   dialog     Dialog   @relation(fields: [dialogId], references: [id])
 
-  // Protect uniqueness within a dialog (Telegram ids are unique per chat; dialog is subset)
-  @@unique([dialogId, telegramId], name: "dialog_message_unique")
+  @@unique([chatId, telegramId], name: "chat_message_unique")
   @@index([telegramId])
   @@index([dialogId, createdAt])
+  @@index([chatId])
   @@map("messages")
 }
 

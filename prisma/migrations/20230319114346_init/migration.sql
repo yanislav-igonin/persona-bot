@@ -35,6 +35,7 @@ CREATE TABLE "dialogs" (
 CREATE TABLE "messages" (
     "id" SERIAL NOT NULL,
     "telegramId" TEXT NOT NULL,
+    "chatId" TEXT NOT NULL,
     "text" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" TEXT NOT NULL,
@@ -61,12 +62,10 @@ CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 
 -- CreateIndex
 CREATE INDEX "messages_telegramId_idx" ON "messages"("telegramId");
+CREATE INDEX "messages_chatId_idx" ON "messages"("chatId");
 
 -- CreateIndex
-CREATE INDEX "messages_dialogId_createdAt_idx" ON "messages"("dialogId", "createdAt");
-
--- CreateIndex
-CREATE UNIQUE INDEX "messages_dialogId_telegramId_key" ON "messages"("dialogId", "telegramId");
+CREATE UNIQUE INDEX "messages_chatId_telegramId_key" ON "messages"("chatId", "telegramId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "personas_name_key" ON "personas"("name");
