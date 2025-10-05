@@ -64,8 +64,6 @@ export const wireBots = (bots: InitedBot[]) => {
       try {
         // If user replies to our bot message -> continue dialog with history
         if (replyTo?.from?.is_bot) {
-          await context.replyWithChatAction('typing');
-
           const parentId = replyTo.message_id.toString();
           const parent = await messageRepo.getByChatAndTelegramId(
             chatId,
@@ -74,11 +72,10 @@ export const wireBots = (bots: InitedBot[]) => {
 
           // Only the bot that authored the parent message should handle the reply
           if (parent?.botRole && parent.botRole !== name) {
-            logger.info(
-              `Skipping reply: addressed to ${parent.botRole}, current bot is ${name}`,
-            );
             return;
           }
+
+          await context.replyWithChatAction('typing');
 
           const existingOrNewDialogId = parent?.dialogId
             ? parent.dialogId
