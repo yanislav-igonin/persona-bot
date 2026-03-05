@@ -70,8 +70,16 @@ export const wireBots = (bots: InitedBot[]) => {
             parentId,
           );
 
+          if (parent === null) {
+            logger.warn(
+              { chatId, name, parentId },
+              'reply to bot but parent message not found',
+            );
+            return;
+          }
+
           // Only the bot that authored the parent message should handle the reply
-          if (parent?.botRole && parent.botRole !== name) {
+          if (parent.botRole !== name) {
             return;
           }
 

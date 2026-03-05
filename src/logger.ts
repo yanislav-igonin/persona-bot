@@ -12,11 +12,13 @@ const now = () => {
 };
 
 /* eslint-disable no-console */
-const info = (data: unknown) => console.log(now(), data);
-const error = (data: unknown) => console.error(now(), data);
+const info = (...data: unknown[]) => console.log(now(), ...data);
+const warn = (...data: unknown[]) => console.warn(now(), ...data);
+const error = (...data: unknown[]) => console.error(now(), ...data);
 /* eslint-enable no-console */
 
 export const logger = {
   error,
   info,
+  warn,
 };
