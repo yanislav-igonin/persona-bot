@@ -34,8 +34,10 @@
     "typescript": "^5.0.2"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.4.2",
     "@prisma/client": "^7.4.2",
     "grammy": "^1.15.3",
-    "openai": "^4.97.0"
+    "openai": "^4.97.0",
+    "pg": "^8.20.0"
   }
 }
