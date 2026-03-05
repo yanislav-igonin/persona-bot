@@ -7,7 +7,6 @@ COPY prisma.config.ts ./
 RUN npm ci
 COPY src ./src
 COPY prisma ./prisma
-RUN npm run db:generate
 RUN npm run build
 
 
