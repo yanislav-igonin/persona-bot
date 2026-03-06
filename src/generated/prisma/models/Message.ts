@@ -40,6 +40,9 @@ export type MessageMinAggregateOutputType = {
   id: number | null
   telegramId: string | null
   text: string | null
+  type: $Enums.MessageType | null
+  mediaFileId: string | null
+  mediaUrl: string | null
   createdAt: Date | null
   userId: string | null
   botRole: string | null
@@ -51,6 +54,9 @@ export type MessageMaxAggregateOutputType = {
   id: number | null
   telegramId: string | null
   text: string | null
+  type: $Enums.MessageType | null
+  mediaFileId: string | null
+  mediaUrl: string | null
   createdAt: Date | null
   userId: string | null
   botRole: string | null
@@ -62,6 +68,9 @@ export type MessageCountAggregateOutputType = {
   id: number
   telegramId: number
   text: number
+  type: number
+  mediaFileId: number
+  mediaUrl: number
   createdAt: number
   userId: number
   botRole: number
@@ -85,6 +94,9 @@ export type MessageMinAggregateInputType = {
   id?: true
   telegramId?: true
   text?: true
+  type?: true
+  mediaFileId?: true
+  mediaUrl?: true
   createdAt?: true
   userId?: true
   botRole?: true
@@ -96,6 +108,9 @@ export type MessageMaxAggregateInputType = {
   id?: true
   telegramId?: true
   text?: true
+  type?: true
+  mediaFileId?: true
+  mediaUrl?: true
   createdAt?: true
   userId?: true
   botRole?: true
@@ -107,6 +122,9 @@ export type MessageCountAggregateInputType = {
   id?: true
   telegramId?: true
   text?: true
+  type?: true
+  mediaFileId?: true
+  mediaUrl?: true
   createdAt?: true
   userId?: true
   botRole?: true
@@ -205,6 +223,9 @@ export type MessageGroupByOutputType = {
   id: number
   telegramId: string
   text: string
+  type: $Enums.MessageType
+  mediaFileId: string | null
+  mediaUrl: string | null
   createdAt: Date
   userId: string
   botRole: string | null
@@ -239,6 +260,9 @@ export type MessageWhereInput = {
   id?: Prisma.IntFilter<"Message"> | number
   telegramId?: Prisma.StringFilter<"Message"> | string
   text?: Prisma.StringFilter<"Message"> | string
+  type?: Prisma.EnumMessageTypeFilter<"Message"> | $Enums.MessageType
+  mediaFileId?: Prisma.StringNullableFilter<"Message"> | string | null
+  mediaUrl?: Prisma.StringNullableFilter<"Message"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Message"> | Date | string
   userId?: Prisma.StringFilter<"Message"> | string
   botRole?: Prisma.StringNullableFilter<"Message"> | string | null
@@ -251,6 +275,9 @@ export type MessageOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   telegramId?: Prisma.SortOrder
   text?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  mediaFileId?: Prisma.SortOrderInput | Prisma.SortOrder
+  mediaUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   botRole?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -267,6 +294,9 @@ export type MessageWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.MessageWhereInput | Prisma.MessageWhereInput[]
   telegramId?: Prisma.StringFilter<"Message"> | string
   text?: Prisma.StringFilter<"Message"> | string
+  type?: Prisma.EnumMessageTypeFilter<"Message"> | $Enums.MessageType
+  mediaFileId?: Prisma.StringNullableFilter<"Message"> | string | null
+  mediaUrl?: Prisma.StringNullableFilter<"Message"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Message"> | Date | string
   userId?: Prisma.StringFilter<"Message"> | string
   botRole?: Prisma.StringNullableFilter<"Message"> | string | null
@@ -279,6 +309,9 @@ export type MessageOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   telegramId?: Prisma.SortOrder
   text?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  mediaFileId?: Prisma.SortOrderInput | Prisma.SortOrder
+  mediaUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   botRole?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -298,6 +331,9 @@ export type MessageScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Message"> | number
   telegramId?: Prisma.StringWithAggregatesFilter<"Message"> | string
   text?: Prisma.StringWithAggregatesFilter<"Message"> | string
+  type?: Prisma.EnumMessageTypeWithAggregatesFilter<"Message"> | $Enums.MessageType
+  mediaFileId?: Prisma.StringNullableWithAggregatesFilter<"Message"> | string | null
+  mediaUrl?: Prisma.StringNullableWithAggregatesFilter<"Message"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Message"> | Date | string
   userId?: Prisma.StringWithAggregatesFilter<"Message"> | string
   botRole?: Prisma.StringNullableWithAggregatesFilter<"Message"> | string | null
@@ -308,6 +344,9 @@ export type MessageScalarWhereWithAggregatesInput = {
 export type MessageCreateInput = {
   telegramId: string
   text: string
+  type?: $Enums.MessageType
+  mediaFileId?: string | null
+  mediaUrl?: string | null
   createdAt?: Date | string
   userId: string
   botRole?: string | null
@@ -319,6 +358,9 @@ export type MessageUncheckedCreateInput = {
   id?: number
   telegramId: string
   text: string
+  type?: $Enums.MessageType
+  mediaFileId?: string | null
+  mediaUrl?: string | null
   createdAt?: Date | string
   userId: string
   botRole?: string | null
@@ -329,6 +371,9 @@ export type MessageUncheckedCreateInput = {
 export type MessageUpdateInput = {
   telegramId?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+  mediaFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   botRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -340,6 +385,9 @@ export type MessageUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   telegramId?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+  mediaFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   botRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -351,6 +399,9 @@ export type MessageCreateManyInput = {
   id?: number
   telegramId: string
   text: string
+  type?: $Enums.MessageType
+  mediaFileId?: string | null
+  mediaUrl?: string | null
   createdAt?: Date | string
   userId: string
   botRole?: string | null
@@ -361,6 +412,9 @@ export type MessageCreateManyInput = {
 export type MessageUpdateManyMutationInput = {
   telegramId?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+  mediaFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   botRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -371,6 +425,9 @@ export type MessageUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   telegramId?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+  mediaFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   botRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -397,6 +454,9 @@ export type MessageCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   telegramId?: Prisma.SortOrder
   text?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  mediaFileId?: Prisma.SortOrder
+  mediaUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   botRole?: Prisma.SortOrder
@@ -413,6 +473,9 @@ export type MessageMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   telegramId?: Prisma.SortOrder
   text?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  mediaFileId?: Prisma.SortOrder
+  mediaUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   botRole?: Prisma.SortOrder
@@ -424,6 +487,9 @@ export type MessageMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   telegramId?: Prisma.SortOrder
   text?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  mediaFileId?: Prisma.SortOrder
+  mediaUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   botRole?: Prisma.SortOrder
@@ -478,9 +544,16 @@ export type MessageUncheckedUpdateManyWithoutDialogNestedInput = {
   deleteMany?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
 }
 
+export type EnumMessageTypeFieldUpdateOperationsInput = {
+  set?: $Enums.MessageType
+}
+
 export type MessageCreateWithoutDialogInput = {
   telegramId: string
   text: string
+  type?: $Enums.MessageType
+  mediaFileId?: string | null
+  mediaUrl?: string | null
   createdAt?: Date | string
   userId: string
   botRole?: string | null
@@ -491,6 +564,9 @@ export type MessageUncheckedCreateWithoutDialogInput = {
   id?: number
   telegramId: string
   text: string
+  type?: $Enums.MessageType
+  mediaFileId?: string | null
+  mediaUrl?: string | null
   createdAt?: Date | string
   userId: string
   botRole?: string | null
@@ -530,6 +606,9 @@ export type MessageScalarWhereInput = {
   id?: Prisma.IntFilter<"Message"> | number
   telegramId?: Prisma.StringFilter<"Message"> | string
   text?: Prisma.StringFilter<"Message"> | string
+  type?: Prisma.EnumMessageTypeFilter<"Message"> | $Enums.MessageType
+  mediaFileId?: Prisma.StringNullableFilter<"Message"> | string | null
+  mediaUrl?: Prisma.StringNullableFilter<"Message"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Message"> | Date | string
   userId?: Prisma.StringFilter<"Message"> | string
   botRole?: Prisma.StringNullableFilter<"Message"> | string | null
@@ -541,6 +620,9 @@ export type MessageCreateManyDialogInput = {
   id?: number
   telegramId: string
   text: string
+  type?: $Enums.MessageType
+  mediaFileId?: string | null
+  mediaUrl?: string | null
   createdAt?: Date | string
   userId: string
   botRole?: string | null
@@ -550,6 +632,9 @@ export type MessageCreateManyDialogInput = {
 export type MessageUpdateWithoutDialogInput = {
   telegramId?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+  mediaFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   botRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -560,6 +645,9 @@ export type MessageUncheckedUpdateWithoutDialogInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   telegramId?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+  mediaFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   botRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -570,6 +658,9 @@ export type MessageUncheckedUpdateManyWithoutDialogInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   telegramId?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumMessageTypeFieldUpdateOperationsInput | $Enums.MessageType
+  mediaFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   botRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -582,6 +673,9 @@ export type MessageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   telegramId?: boolean
   text?: boolean
+  type?: boolean
+  mediaFileId?: boolean
+  mediaUrl?: boolean
   createdAt?: boolean
   userId?: boolean
   botRole?: boolean
@@ -594,6 +688,9 @@ export type MessageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   telegramId?: boolean
   text?: boolean
+  type?: boolean
+  mediaFileId?: boolean
+  mediaUrl?: boolean
   createdAt?: boolean
   userId?: boolean
   botRole?: boolean
@@ -606,6 +703,9 @@ export type MessageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   telegramId?: boolean
   text?: boolean
+  type?: boolean
+  mediaFileId?: boolean
+  mediaUrl?: boolean
   createdAt?: boolean
   userId?: boolean
   botRole?: boolean
@@ -618,6 +718,9 @@ export type MessageSelectScalar = {
   id?: boolean
   telegramId?: boolean
   text?: boolean
+  type?: boolean
+  mediaFileId?: boolean
+  mediaUrl?: boolean
   createdAt?: boolean
   userId?: boolean
   botRole?: boolean
@@ -625,7 +728,7 @@ export type MessageSelectScalar = {
   chatId?: boolean
 }
 
-export type MessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "telegramId" | "text" | "createdAt" | "userId" | "botRole" | "dialogId" | "chatId", ExtArgs["result"]["message"]>
+export type MessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "telegramId" | "text" | "type" | "mediaFileId" | "mediaUrl" | "createdAt" | "userId" | "botRole" | "dialogId" | "chatId", ExtArgs["result"]["message"]>
 export type MessageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   dialog?: boolean | Prisma.DialogDefaultArgs<ExtArgs>
 }
@@ -645,6 +748,9 @@ export type $MessagePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: number
     telegramId: string
     text: string
+    type: $Enums.MessageType
+    mediaFileId: string | null
+    mediaUrl: string | null
     createdAt: Date
     userId: string
     botRole: string | null
@@ -1077,6 +1183,9 @@ export interface MessageFieldRefs {
   readonly id: Prisma.FieldRef<"Message", 'Int'>
   readonly telegramId: Prisma.FieldRef<"Message", 'String'>
   readonly text: Prisma.FieldRef<"Message", 'String'>
+  readonly type: Prisma.FieldRef<"Message", 'MessageType'>
+  readonly mediaFileId: Prisma.FieldRef<"Message", 'String'>
+  readonly mediaUrl: Prisma.FieldRef<"Message", 'String'>
   readonly createdAt: Prisma.FieldRef<"Message", 'DateTime'>
   readonly userId: Prisma.FieldRef<"Message", 'String'>
   readonly botRole: Prisma.FieldRef<"Message", 'String'>

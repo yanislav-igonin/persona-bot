@@ -1,11 +1,15 @@
+import { imageProvider } from './image-provider';
 import { logger } from './logger';
 import { saveChatMiddleware, saveUserMiddleware } from './middlewares';
 import {
-  buildHistoryMessages,
-  getCompletion,
-  getCompletionWithHistory,
+  decideReplyMode,
+  generateImagePrompt,
+  generateTextReply,
+  getImageCaption,
+  type HistoryRecord,
   preparePrompt,
   shouldMakeRandomEncounter,
+  shouldTrySpontaneousImageReply,
 } from './prompt';
 import { replies } from './replies';
 import {
@@ -14,6 +18,12 @@ import {
   persona as personaRepo,
 } from '@/repositories';
 import { Bot } from 'grammy';
+
+type StoredHistoryRecord = {
+  botRole: string | null;
+  text: string;
+  type?: 'image' | 'text';
+};
 
 export type InitedBot = {
   bot: Bot;
@@ -62,6 +72,122 @@ export const wireBots = (bots: InitedBot[]) => {
       const replyTo = context.message.reply_to_message;
 
       try {
+        const sendTextReply = async ({
+          dialogId,
+          replyText,
+        }: {
+          dialogId: number;
+          replyText: string;
+        }) => {
+          const sentReply = await context.reply(replyText, {
+            reply_to_message_id: context.message.message_id,
+          });
+
+          await messageRepo.create({
+            botRole: name,
+            chatId,
+            dialogId,
+            telegramId: sentReply.message_id.toString(),
+            text: replyText,
+            type: 'text',
+            userId: '0',
+          });
+        };
+
+        const sendImageReply = async ({
+          dialogId,
+          imagePrompt,
+          replyText,
+        }: {
+          dialogId: number;
+          imagePrompt: string;
+          replyText: string;
+        }) => {
+          const caption = getImageCaption(replyText);
+          await context.replyWithChatAction('upload_photo');
+          const generatedImage = await imageProvider.generateImage({
+            prompt: imagePrompt,
+            userId,
+          });
+          const sentReply = await context.replyWithPhoto(
+            generatedImage.mediaUrl,
+            {
+              caption,
+              reply_to_message_id: context.message.message_id,
+            },
+          );
+          const largestPhoto = sentReply.photo[sentReply.photo.length - 1];
+
+          await messageRepo.create({
+            botRole: name,
+            chatId,
+            dialogId,
+            mediaFileId: largestPhoto?.file_id ?? null,
+            mediaUrl: generatedImage.mediaUrl,
+            telegramId: sentReply.message_id.toString(),
+            text: caption,
+            type: 'image',
+            userId: '0',
+          });
+        };
+
+        const resolveReply = async ({
+          dialogId,
+          history,
+        }: {
+          dialogId: number;
+          history: StoredHistoryRecord[];
+        }) => {
+          const prompt = preparePrompt(text);
+          const normalizedHistory: HistoryRecord[] = history.map((record) => ({
+            botRole: record.botRole,
+            text: record.text,
+            type: record.type,
+          }));
+          const textReply = await generateTextReply({
+            history: normalizedHistory,
+            personality: description,
+            prompt,
+            words,
+          });
+          const replyMode = await decideReplyMode({
+            history: normalizedHistory,
+            latestUserText: text,
+            personality: description,
+            textReply,
+            userCanReceiveSpontaneousImage: shouldTrySpontaneousImageReply(),
+            words,
+          });
+
+          if (replyMode === 'image') {
+            try {
+              const imagePrompt = await generateImagePrompt({
+                history: normalizedHistory,
+                latestUserText: text,
+                personality: description,
+                textReply,
+                words,
+              });
+              await sendImageReply({
+                dialogId,
+                imagePrompt,
+                replyText: textReply,
+              });
+              return;
+            } catch (error) {
+              logger.warn(
+                { chatId, dialogId, error, name },
+                'image reply failed, falling back to text reply',
+              );
+            }
+          }
+
+          await sendTextReply({
+            dialogId,
+            replyText: textReply,
+          });
+        };
+
         // If user replies to our bot message -> continue dialog with history
         if (replyTo?.from?.is_bot) {
           const parentId = replyTo.message_id.toString();
@@ -103,33 +229,9 @@ export const wireBots = (bots: InitedBot[]) => {
           const history = await messageRepo.listByDialogId(
             existingOrNewDialogId,
           );
-          const messages = buildHistoryMessages(
-            history as unknown as Array<{
-              botRole: string | null;
-              text: string;
-            }>,
-            description,
-            words,
-            text,
-          );
-          const replyWithHistoryText = await getCompletionWithHistory({
-            messages,
-          });
-
-          const historyReplyOptions = {
-            reply_to_message_id: context.message.message_id,
-          };
-          const sentHistoryReply = await context.reply(
-            replyWithHistoryText,
-            historyReplyOptions,
-          );
-          await messageRepo.create({
-            botRole: name,
-            chatId,
+          await resolveReply({
             dialogId: existingOrNewDialogId,
-            telegramId: sentHistoryReply.message_id.toString(),
-            text: replyWithHistoryText,
-            userId: '0',
+            history: history as StoredHistoryRecord[],
           });
           return;
         }
@@ -155,26 +257,9 @@ export const wireBots = (bots: InitedBot[]) => {
           userId,
         });
 
-        const prompt = preparePrompt(text);
-        const replySingleTurnText = await getCompletion({
-          personality: description,
-          prompt,
-          words,
-        });
-        const singleTurnReplyOptions = {
-          reply_to_message_id: context.message.message_id,
-        };
-        const sentSingleTurnReply = await context.reply(
-          replySingleTurnText,
-          singleTurnReplyOptions,
-        );
-        await messageRepo.create({
-          botRole: name,
-          chatId,
+        await resolveReply({
           dialogId: newDialogId,
-          telegramId: sentSingleTurnReply.message_id.toString(),
-          text: replySingleTurnText,
-          userId: '0',
+          history: [],
         });
       } catch (error) {
         await context.reply(replies.error);
