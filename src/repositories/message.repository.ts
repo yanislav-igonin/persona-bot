@@ -7,8 +7,11 @@ type CreateMessageData = {
   botRole?: string | null;
   chatId: string;
   dialogId: number;
+  mediaFileId?: string | null;
+  mediaUrl?: string | null;
   telegramId: string;
   text: string;
+  type?: 'text' | 'image';
   userId: string;
 };
 
@@ -16,8 +19,11 @@ export const create = async ({
   botRole,
   chatId,
   dialogId,
+  mediaFileId,
+  mediaUrl,
   telegramId,
   text,
+  type,
   userId,
 }: CreateMessageData) => {
   try {
@@ -26,8 +32,11 @@ export const create = async ({
         botRole: botRole ?? null,
         chatId,
         dialogId,
+        mediaFileId: mediaFileId ?? null,
+        mediaUrl: mediaUrl ?? null,
         telegramId,
         text,
+        type: type ?? 'text',
         userId,
       },
     });

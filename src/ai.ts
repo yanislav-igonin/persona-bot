@@ -6,7 +6,12 @@ import OpenAI from 'openai';
 // });
 // export const openai = new OpenAIApi(configuration);
 
-export const openai = new OpenAI({
+export const textModel = new OpenAI({
   apiKey: config.grokApiKey,
   baseURL: 'https://api.x.ai/v1',
+});
+
+export const imageModel = new OpenAI({
+  apiKey: config.openaiApiKey,
+  baseURL: config.imageApiBaseUrl,
 });

@@ -853,6 +853,9 @@ export const MessageScalarFieldEnum = {
   id: 'id',
   telegramId: 'telegramId',
   text: 'text',
+  type: 'type',
+  mediaFileId: 'mediaFileId',
+  mediaUrl: 'mediaUrl',
   createdAt: 'createdAt',
   userId: 'userId',
   botRole: 'botRole',
@@ -951,6 +954,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'MessageType'
+ */
+export type EnumMessageTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MessageType'>
+    
+
+
+/**
+ * Reference to a field of type 'MessageType[]'
+ */
+export type ListEnumMessageTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MessageType[]'>
     
 
 

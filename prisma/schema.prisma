@@ -11,6 +11,11 @@ datasource db {
   provider = "postgresql"
 }
 
+enum MessageType {
+  text
+  image
+}
+
 model User {
   id        String   @id
   username  String?  @unique
@@ -49,6 +54,9 @@ model Message {
   id         Int      @id @default(autoincrement())
   telegramId String
   text       String
+  type       MessageType @default(text)
+  mediaFileId String?
+  mediaUrl   String?
   createdAt  DateTime @default(now())
   userId     String   // use "0" for bot messages
   botRole    String?  // NULL for user messages
