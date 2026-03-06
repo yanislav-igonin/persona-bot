@@ -1,3 +1,4 @@
+import { imageProvider } from './image-provider';
 import { logger } from './logger';
 import { saveChatMiddleware, saveUserMiddleware } from './middlewares';
 import {
@@ -17,12 +18,11 @@ import {
   persona as personaRepo,
 } from '@/repositories';
 import { Bot } from 'grammy';
-import { imageProvider } from './image-provider';
 
 type StoredHistoryRecord = {
   botRole: string | null;
   text: string;
-  type?: 'text' | 'image';
+  type?: 'image' | 'text';
 };
 
 export type InitedBot = {
@@ -109,10 +109,13 @@ export const wireBots = (bots: InitedBot[]) => {
             prompt: imagePrompt,
             userId,
           });
-          const sentReply = await context.replyWithPhoto(generatedImage.mediaUrl, {
-            caption,
-            reply_to_message_id: context.message.message_id,
-          });
+          const sentReply = await context.replyWithPhoto(
+            generatedImage.mediaUrl,
+            {
+              caption,
+              reply_to_message_id: context.message.message_id,
+            },
+          );
           const largestPhoto = sentReply.photo[sentReply.photo.length - 1];
 
           await messageRepo.create({

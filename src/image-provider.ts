@@ -6,9 +6,12 @@ export type GeneratedImage = {
   mediaUrl: string;
 };
 
-export interface ImageProvider {
-  generateImage: (data: { prompt: string; userId?: string }) => Promise<GeneratedImage>;
-}
+export type ImageProvider = {
+  generateImage: (data: {
+    prompt: string;
+    userId?: string;
+  }) => Promise<GeneratedImage>;
+};
 
 export class OpenAIImageProvider implements ImageProvider {
   public async generateImage({

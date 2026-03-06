@@ -17,7 +17,7 @@ const getUserMessage = (content: string): ChatCompletionMessageParam => ({
   role: 'user',
 });
 
-export type ReplyMode = 'text' | 'image';
+export type ReplyMode = 'image' | 'text';
 export type HistoryRecord = {
   botRole: string | null | undefined;
   text: string;

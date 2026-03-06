@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --watch 'src/**/*.*' --exec 'ts-node -r dotenv/config -r tsconfig-paths/register src/index.ts'",
-    "lint": "eslint --ext .ts src",
+    "lint": "eslint --ext .ts --fix src",
     "typecheck": "tsc --noEmit",
     "build": "tsc && tsc-alias",
     "start": "node dist/index.js",

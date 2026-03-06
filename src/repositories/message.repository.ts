@@ -11,7 +11,7 @@ type CreateMessageData = {
   mediaUrl?: string | null;
   telegramId: string;
   text: string;
-  type?: 'text' | 'image';
+  type?: 'image' | 'text';
   userId: string;
 };
 
@@ -57,8 +57,11 @@ export const create = async ({
   }
 };
 
-export const getByChatAndTelegramId = (chatId: string, telegramId: string) => {
-  return database.message.findFirst({
+export const getByChatAndTelegramId = async (
+  chatId: string,
+  telegramId: string,
+) => {
+  return await database.message.findFirst({
     where: { chatId, telegramId },
   });
 };

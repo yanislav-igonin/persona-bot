@@ -13,14 +13,14 @@ const numberOrDefault = (value: string | undefined, defaultValue: number) => {
 export const config = {
   env: valueOrDefault(process.env.ENV, 'development'),
   grokApiKey: valueOrDefault(process.env.GROK_API_KEY, ''),
-  openaiApiKey: valueOrDefault(process.env.OPENAI_API_KEY, ''),
-  imageRepliesEnabled: process.env.IMAGE_REPLIES_ENABLED === 'true',
-  imageReplyChance: numberOrDefault(process.env.IMAGE_REPLY_CHANCE, 0.15),
+  imageApiBaseUrl: process.env.IMAGE_API_BASE_URL || undefined,
   imageGenerationModel: valueOrDefault(
     process.env.IMAGE_GENERATION_MODEL,
     'dall-e-3',
   ),
-  imageApiBaseUrl: process.env.IMAGE_API_BASE_URL || undefined,
+  imageRepliesEnabled: process.env.IMAGE_REPLIES_ENABLED === 'true',
+  imageReplyChance: numberOrDefault(process.env.IMAGE_REPLY_CHANCE, 0.15),
+  openaiApiKey: valueOrDefault(process.env.OPENAI_API_KEY, ''),
   randomEncounterChance: numberOrDefault(
     process.env.RANDOM_ENCOUNTER_CHANCE,
     0.1,
