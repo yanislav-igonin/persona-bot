@@ -3,7 +3,9 @@ import { config } from '@/config';
 import { valueOrThrow } from '@/values';
 
 export type GeneratedImage = {
-  mediaUrl: string;
+  filename: string;
+  image: Uint8Array;
+  mimeType: string;
 };
 
 export type ImageProvider = {
@@ -14,6 +16,8 @@ export type ImageProvider = {
 };
 
 export class OpenAIImageProvider implements ImageProvider {
+  private static readonly OUTPUT_FORMAT = 'jpeg';
+
   public async generateImage({
     prompt,
     userId,
@@ -26,18 +30,25 @@ export class OpenAIImageProvider implements ImageProvider {
     const response = await imageModel.images.generate({
       model: config.imageGenerationModel,
       n: 1,
+      output_format: OpenAIImageProvider.OUTPUT_FORMAT,
       prompt,
-      response_format: 'url',
+      quality: 'high',
       size: '1024x1024',
       user: userId,
     });
 
-    const mediaUrl = response.data?.[0]?.url;
-    if (!mediaUrl) {
-      throw new Error('image provider did not return a usable URL');
+    const imageBase64 = response.data?.[0]?.b64_json;
+    if (!imageBase64) {
+      throw new Error('image provider did not return a usable base64 image');
     }
 
-    return { mediaUrl };
+    const imageBuffer = Buffer.from(imageBase64, 'base64');
+
+    return {
+      filename: `generated-image.${OpenAIImageProvider.OUTPUT_FORMAT}`,
+      image: new Uint8Array(imageBuffer),
+      mimeType: 'image/jpeg',
+    };
   }
 }
 

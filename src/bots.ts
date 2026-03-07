@@ -17,7 +17,7 @@ import {
   message as messageRepo,
   persona as personaRepo,
 } from '@/repositories';
-import { Bot } from 'grammy';
+import { Bot, InputFile } from 'grammy';
 
 type StoredHistoryRecord = {
   botRole: string | null;
@@ -110,7 +110,7 @@ export const wireBots = (bots: InitedBot[]) => {
             userId,
           });
           const sentReply = await context.replyWithPhoto(
-            generatedImage.mediaUrl,
+            new InputFile(generatedImage.image, generatedImage.filename),
             {
               caption,
               reply_to_message_id: context.message.message_id,
@@ -123,7 +123,7 @@ export const wireBots = (bots: InitedBot[]) => {
             chatId,
             dialogId,
             mediaFileId: largestPhoto?.file_id ?? null,
-            mediaUrl: generatedImage.mediaUrl,
+            mediaUrl: null,
             telegramId: sentReply.message_id.toString(),
             text: caption,
             type: 'image',
