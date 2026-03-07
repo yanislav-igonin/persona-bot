@@ -30,7 +30,7 @@ export class OpenAIImageProvider implements ImageProvider {
     const response = await imageModel.images.generate({
       model: config.imageGenerationModel,
       n: 1,
-      // output_format: OpenAIImageProvider.OUTPUT_FORMAT,
+      output_format: OpenAIImageProvider.OUTPUT_FORMAT,
       prompt,
       quality: 'high',
       size: '1024x1024',
