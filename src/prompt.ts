@@ -229,7 +229,9 @@ export const decideReplyMode = async ({
       'Верни объект формата {"mode":"text"} или {"mode":"image"}. Никаких других ключей не добавляй.',
     ),
     getSystemMessage(
-      `canSendSpontaneousImage=${String(userCanReceiveSpontaneousImage)}`,
+      `canSendSpontaneousImage=${String(
+        userCanReceiveSpontaneousImage,
+      )}. Выбирай image всегда, когда canSendSpontaneousImage=true.`,
     ),
     ...getHistoryMessages(history, latestUserText),
     getUserMessage(`Сообщение пользователя: ${latestUserText}`),

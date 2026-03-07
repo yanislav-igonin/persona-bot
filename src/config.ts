@@ -16,7 +16,7 @@ export const config = {
   imageApiBaseUrl: process.env.IMAGE_API_BASE_URL || undefined,
   imageGenerationModel: valueOrDefault(
     process.env.IMAGE_GENERATION_MODEL,
-    'dall-e-3',
+    'gpt-image-1.5',
   ),
   imageRepliesEnabled: process.env.IMAGE_REPLIES_ENABLED === 'true',
   imageReplyChance: numberOrDefault(process.env.IMAGE_REPLY_CHANCE, 0.15),
