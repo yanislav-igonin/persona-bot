@@ -278,10 +278,11 @@ export const generateImagePrompt = async ({
 };
 
 export const getImageCaption = (textReply: string) => {
-  const trimmedReply = trimText(textReply);
-  if (trimmedReply.length <= IMAGE_CAPTION_MAX_LENGTH) {
-    return trimmedReply;
-  }
+  return trimText(textReply);
+  // const trimmedReply = trimText(textReply);
+  // if (trimmedReply.length <= IMAGE_CAPTION_MAX_LENGTH) {
+  //   return trimmedReply;
+  // }
 
-  return `${trimmedReply.slice(0, IMAGE_CAPTION_MAX_LENGTH - 1).trimEnd()}…`;
+  // return `${trimmedReply.slice(0, IMAGE_CAPTION_MAX_LENGTH - 1).trimEnd()}…`;
 };
